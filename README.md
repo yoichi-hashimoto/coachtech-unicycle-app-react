@@ -1,70 +1,286 @@
-# Getting Started with Create React App
+# 一輪車レベルアップアプリ
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# **「Uni-Circle（ユニサークル）」**
+一輪車を練習する子ども・大人が、楽しみながら技を習得し、仲間と成長を共有できるレベルアップ支援アプリです。
+一輪車の英語Unicircleと、メンバーが輪になって練習・交流するイメージのCircleを組み合わせて「Uni-Circle」と名付けました。
 
-## Available Scripts
+![表紙](./public/images/Uni-circle取り扱い説明書表紙.png)
 
-In the project directory, you can run:
+## URL
 
-### `npm start`
+https://app.unicircle-jp.com
+※ログインユーザー限定のアプリです。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 開発背景
 
-### `npm test`
+娘が学校で一輪車に熱中して、ブームになったことをきっかけに、地域で一輪車クラブを立ち上げました。  
+クラブでは、集客、講師招聘、会計、補助金申請、会場予約などの運営を行う一方、自身の練習を始めました。  
+活動を続ける中で、次のような課題を感じました。
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 一輪車は「乗れるようになる」ことが最初の大きな目標となり、その後の技に挑戦せず練習をやめてしまうことがある
+- 一輪車には回転、ジャンプ、片足走行、団体演技など多くの技があるが、その存在が十分知られていない
+- 個人練習が中心になるため、他のメンバーが「何を練習しているか」「どの技までできているか」が分かりにくい
+- 指導者側もメンバーそれぞれのレベルを把握することが難しい
+- 技術の高いメンバーだけが評価されると、初心者のモチベーションが下がりやすい  
 
-### `npm run build`
+そこで、
+**「技術レベルだけでなく、挑戦そのものを評価できる仕組み」**
+を作ることを目的としてUni-Circleを開発しました。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 解決したい課題
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Uni-Circleでは、主に次の3つの課題解決を目指しています。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. 練習を継続するモチベーション  
+レベル・動物ランク・ポイントなどを使い、自分の成長を視覚的に確認できるようにしました。
+2. 仲間とのコミュニケーション  
+チャレンジ履歴をメンバー全員で共有し、❤ボタンによって挑戦したメンバーを応援できるようにしました。
 
-### `npm run eject`
+   上級者だけでなく  
+   **「たくさん挑戦した人も応援される」**
+   設計を意識しています。
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. クラブ運営・指導負担の軽減  
+管理者がメンバーのレベル、チャレンジ履歴、取得技などを確認できるため、練習メニュー作成やチーム編成に活用できます。
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 主な機能
+1. ログイン  
+クラブ入会時に発行されたID・パスワードでログインします。  
+1ユーザーにつき1IDを発行し、新規ユーザー登録は管理者のみが行います。  
+クラブ会費の支払いとユーザー登録を紐づけることで、実際のクラブ運営とシステムを連動させています。
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. プロフィール編集  
+ユーザーは以下の情報を編集できます。
+   - ニックネーム
+   - アバター
+   - 背景カラー
+   - パスワード
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   アバターは子供・大人を含む複製のイラストから選択できます。
+   また、チャレンジなどで獲得したポイントを利用してアイテムを取得できます。
 
-## Learn More
+![editPage](./public/images/editPage.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. レベル・動物ランク  
+一輪車の技術をレベル1～25に分類しています。  
+レベルアップするごとに山を登っていくようなUIと、5レベルごとに動物ランクが変化します。  
+数字だけでレベルを表示するのではなく、動物を使うことで子供でも自分の成長を直感的に把握できるようにしました。
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. チャレンジ機能  
+技取得のためのレベルアップテストを行います。  
+管理者が技の成功を3回確認すると合格となり、次のレベルへ進みます。  
+合否に関わらずチャレンジ結果はDBに保存され、メンバー全員がチャレンジ履歴から確認できます。
 
-### Code Splitting
+![challengePage](./public/images/challengePage.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+5. 応援機能  
+チャレンジ履歴には❤ボタンを設置しています。  
+他のメンバーのチャレンジを応援することで、「技術が高い人だけが評価される」のではなく
+**「挑戦している人も評価される」**
+コミュニティを目指しています。
 
-### Analyzing the Bundle Size
+6. ランキング  
+クラブメンバーの
+   - 現在レベル
+   - 動物ランク
+   - ❤獲得数  
+を一覧表示します。
+指導者がメンバーのレベルを把握したり、練習チームを編成する際にも利用できます。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+![ranking](./public/images/rankingPage.png)
 
-### Making a Progressive Web App
+7. 技一覧  
+一輪車に乗れるようになるまでの基礎技から、上級技までを一覧表示します。
+取得した技にはクリア表示がつきます。
+各技には以下の情報を登録しています。
+   - 技名
+   - カテゴリ
+   - 成功するためのコツ
+   - 獲得できるポイント
+   - メンバーからのコメント  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   技の習得方法をアプリ上で確認できるため、次に目標とする技が明確になります。
+   自分の失敗や成功について言語化することで、俗人的ではない技の練習ポイントを学べ、指導者がいない時間でも自主練習が出来ます。
+   遠方から招聘している指導者もその場に居合わせることなく、コメントでコツを指導できます。
 
-### Advanced Configuration
+![skillPage](./public/images/skillsPage.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+8. 技へのコメント・Tip投稿  
+技ごとに、メンバーが攻略のコツや練習方法を投稿できます。
+指導者だけが知識を持つのではなく、
+**「クラブ内に練習ノウハウを蓄積する」** ことを目的としています。
 
-### Deployment
+## 管理者機能
+管理者には一般ユーザーとは別に管理機能を用意しています。
+ - ユーザー登録  
+  クラブへの入会・会費支払い後、管理者がユーザーを登録します。  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+ - ユーザー削除  
+  退会・卒業したメンバーを削除できます。  
 
-### `npm run build` fails to minify
+ - パスワードリセット  
+ ユーザーがパスワードを忘れた場合、管理者が再設定できます。  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ - レベルアップ判定  
+  チャレンジを行ったメンバーの技を確認し、成功回数を入力します。3回成功した場合は合格となり、レベルアップします。
+
+  ![testPage](./public/images/testPage.png)
+
+## 使用技術
+
+**Frontend**
+- React
+- TypeScript
+- React Router
+- HTML/CSS
+- Zustand
+- Axios
+
+**Backend**
+- Laravel
+- PHP
+- REST API
+- Laravel Sanctum
+
+**Database**
+- MySQL
+- Composer
+- npm
+- Git/Github
+
+**Infrastructure**
+- Railway
+- nginx
+- Xserver Domain
+
+
+
+## 認証
+Laravel Sanctumを使用した認証を採用しています。未ログインユーザーはクラブ内情報へアクセスできないようにしています。
+また、管理者専用機能については一般ユーザーからアクセスできないよう権限を分離しています。
+
+
+## ER図
+ ![ER](./public/images/ER.svg)
+
+主なテーブル：
+
+users  
+skills  
+skill_tips  
+challenges  
+likes  
+colors  
+animals  
+user_avatars  
+items  
+user_items  
+points  
+notices  
+
+
+## 工夫した点
+1. 「上手さ」だけではなく「挑戦」を評価  
+一般的なランキングでは技術レベルの高いユーザーが上位になります。  
+しかし初心者が多い地域クラブでは、それだけではモチベーションにつながらないと考えました。
+そのため、チャレンジ履歴と❤機能を組み合わせ、**挑戦回数が多い人にも自然に応援が集まる設計**としました。
+
+2. 子供でも理解できるUI  
+主な利用者には小学生も含まれます。
+そのため数字・文章だけではなく
+- 動物
+- アバター
+- 山登り
+- ❤
+- アイコン
+などを利用して直感的に操作できるUIを意識しました。  
+
+3. 現実のクラブ運営とシステムを連携  
+単独で完結するアプリではなく、
+
+   入会  
+   　↓  
+   会費支払い  
+   　↓  
+   ユーザー登録  
+   　↓  
+   練習  
+   　↓  
+   チャレンジ  
+   　↓  
+   管理者  
+   　↓  
+   レベルアップ  
+
+という実際のクラブ運営フローにアプリを組み込みました。
+
+4 管理者の運営負担軽減  
+これまで指導者の記憶や紙で管理していた
+- 誰がどのレベル化
+- 最近誰がチャレンジしたか
+- どの技を取得しているか
+
+といった情報をデータベースで確認できるようにしました。
+
+
+## 苦労した点
+1. データベース・リレーション・API設計
+User、Skills、Challenges、Likes、SkillTipsなど複数のモデルが関連するため、Eloquentのリレーション設計に苦労しました。
+また、APIで渡すResourceを作成する際にはどのデータをどのリレーションから取得するかが複雑になったことと、データ量が増えすぎるとフロントエンドでの読み込み速度が遅くなることの調整に苦労しました。
+
+2. Reactでの状態管理
+ユーザー情報、モーダル、Like状態、ポイント、アバターなど、複数の状態が画面間で利用されるため状態管理に苦労しました。
+必要に応じてローカルstateとZustandを使い分けています。
+
+3. LaravelとReact間の認証
+FrontendとBackendを分離しているため、Laravel SanctumによるCookie認証、CSRF、CORS設定などに苦労しました。
+
+特に本番環境へのデプロイ時には、
+
+   - Domain
+   - CORS
+   - Cookie
+   - CSRF
+   - HTTPS
+の関係を理解しながら設定を行いました。  
+
+4. 本番環境へのデプロイ
+ローカルDocker環境では正常に動作していても、本番Railway環境では
+
+   - 環境変数
+   - MySQL
+   - CORS
+   - Sanctum
+   - Seeder
+   - ドメイン
+などの違いによるエラーが発生しました。問題を一つずつ切り分けながら本番公開まで実施しました。
+
+---
+
+## 開発期間
+20267年6月1日～2026年9月30日
+週約10時間程度
+約4か月間、実際の一輪車クラブで利用することを想定しながら開発しました。
+現状はβ版として会員に提供し、意見を集めているところです。
+
+---
+
+## 開発環境構築
+**Laravel**  
+git clone git@github.com:yoichi-hashimoto/unicycle-app.git  
+cd src  
+cp .env.example .env  
+docker compose up -d  
+composer install  
+php artisan key:generate  
+php artisan migrate --seed  
+  
+**React**  
+npm install  
+npm run dev
+
+---
+
+## 今後実装したい機能
