@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\DB;
 class UserItemController
 {
     public function update(UserItem $userItem){
-        $user = auth()->check()->user();
+        $user = auth()->user();
+        abort_unless((int) $userItem->user_id === (int) $user->id, 403);
         DB::transaction (function()use($user,$userItem){
             UserItem::where('user_id',$user->id)
             ->update([

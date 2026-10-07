@@ -174,7 +174,7 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 - PHP 8.3以上  
 - Composer 2系
 - Node.js 20.9以上
-- ブラウザで開くURL:http://localhost3000  
+- ブラウザで開くURL:http://localhost:3000  
   
 
 ## システム構成
