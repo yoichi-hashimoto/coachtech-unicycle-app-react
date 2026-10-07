@@ -169,6 +169,14 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 - user-event
 - Axios Mock
 
+**必要環境**
+
+- PHP 8.3以上  
+- Composer 2系
+- Node.js 20.9以上
+- ブラウザで開くURL:http://localhost3000  
+  
+
 ## システム構成
 FrontendとBackendを分離したSPA構成としています。  
 ReactからAxiosを使用してLaravel REST APIへ通信し、
@@ -323,7 +331,8 @@ FrontendとBackendを分離しているため、Laravel SanctumによるCookie�
 
 ## 開発環境構築
 **Laravel**  
-      git clone https://github.com/yoichi-hashimoto/coachtech-unicycle-app-react.git
+
+      git clone https://github.com/yoichi-hashimoto/coachtech-unicycle-app-react.git  
       cd coachtech-unicycle-app-react/unicycle-app-api
 
       composer install
@@ -339,6 +348,7 @@ FrontendとBackendを分離しているため、Laravel SanctumによるCookie�
 
       別ターミナルを起動  
 
+      cd coachtech-unicycle-app-react
       npm install  
       npm start  
   
@@ -346,6 +356,7 @@ FrontendとBackendを分離しているため、Laravel SanctumによるCookie�
 
       npm test  
   
+
 
 ## 今後実装したい機能
 ### 1. 成長履歴の可視化

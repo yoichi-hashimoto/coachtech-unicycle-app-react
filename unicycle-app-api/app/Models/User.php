@@ -129,7 +129,7 @@ class User extends Authenticatable
     }
 
     public function getEarnedPointsAttribute(){
-        return Challenge::where('user_id',$this->id)->sum('earned_point') ;
+        return Point::where('user_id',$this->id)->sum('points') ;
     }
 
     public function userItems()

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class UserItemController
 {
     public function update(UserItem $userItem){
-        $user = auth()->user();
+        $user = auth()->check()->user();
         DB::transaction (function()use($user,$userItem){
             UserItem::where('user_id',$user->id)
             ->update([
