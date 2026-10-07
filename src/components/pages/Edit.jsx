@@ -54,8 +54,8 @@ function Edit() {
         setIsLoading(true);
         const allAvatars = await fetchAvatars();
         setAvatars(allAvatars);
-      } catch (err) {
-        console.err(err);
+      } catch (error) {
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -125,62 +125,62 @@ function Edit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("送信前formData", formData);
-    
-      const {
-        name,
-        current_password,
-        password,
-        password_confirmation,
-        user_avatar_id,
-        color_id,
-      } = formData;
 
-      const isPasswordChange =
-        current_password !== "" ||
-        password !== "" ||
-        password_confirmation !== "";
+    const {
+      name,
+      current_password,
+      password,
+      password_confirmation,
+      user_avatar_id,
+      color_id,
+    } = formData;
 
-      if (isPasswordChange) {
-        if (!current_password) {
-          showToast("現在のパスワードを入力してください");
-          return;
-        }
+    const isPasswordChange =
+      current_password !== "" ||
+      password !== "" ||
+      password_confirmation !== "";
 
-        if (!password) {
-          showToast("新しいパスワードを入力してください");
-          return;
-        }
-
-        if (password.length < 8) {
-          showToast("新しいパスワードは8文字以上で入力してください");
-          return;
-        }
-
-        if (password !== password_confirmation) {
-          showToast("新しいパスワードが一致しません");
-          return;
-        }
+    if (isPasswordChange) {
+      if (!current_password) {
+        showToast("現在のパスワードを入力してください");
+        return;
       }
 
-      const payload = {};
-
-      if (name.trim() !== "") {
-        payload.name = name.trim();
+      if (!password) {
+        showToast("新しいパスワードを入力してください");
+        return;
       }
 
-      if (user_avatar_id !== "") {
-        payload.user_avatar_id = Number(user_avatar_id);
+      if (password.length < 8) {
+        showToast("新しいパスワードは8文字以上で入力してください");
+        return;
       }
 
-      if (color_id !== "") {
-        payload.color_id = Number(color_id);
+      if (password !== password_confirmation) {
+        showToast("新しいパスワードが一致しません");
+        return;
       }
+    }
 
-      if (isPasswordChange) {
-        payload.current_password = current_password;
-        payload.password = password;
-        payload.password_confirmation = password_confirmation;
-      }
+    const payload = {};
+
+    if (name.trim() !== "") {
+      payload.name = name.trim();
+    }
+
+    if (user_avatar_id !== "") {
+      payload.user_avatar_id = Number(user_avatar_id);
+    }
+
+    if (color_id !== "") {
+      payload.color_id = Number(color_id);
+    }
+
+    if (isPasswordChange) {
+      payload.current_password = current_password;
+      payload.password = password;
+      payload.password_confirmation = password_confirmation;
+    }
     setIsLoading(true);
     try {
       await axios.get("/sanctum/csrf-cookie");
@@ -201,19 +201,19 @@ function Edit() {
         navigate("/profile");
       }, 1000);
     } catch (error) {
-          if (error.response?.status === 422) {
-            const errors = error.response.data.errors;
-            const firstMessage = Object.values(errors)?.[0]?.[0];
+      if (error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        const firstMessage = Object.values(errors)?.[0]?.[0];
 
-            showToast(firstMessage ?? "入力内容を確認してください", "error");
-          } else if (error.response?.status === 401) {
-            showToast("ログインし直してください", "error");
-          } else if (error.response?.status === 403) {
-            showToast("この変更を行う権限がありません", "error");
-          } else {
-            showToast("更新に失敗しました", "error");
-          }
-          console.error(error);
+        showToast(firstMessage ?? "入力内容を確認してください", "error");
+      } else if (error.response?.status === 401) {
+        showToast("ログインし直してください", "error");
+      } else if (error.response?.status === 403) {
+        showToast("この変更を行う権限がありません", "error");
+      } else {
+        showToast("更新に失敗しました", "error");
+      }
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -330,7 +330,7 @@ function Edit() {
           </Modal>
         </div>
         <div className={classes.inputWrapper}>
-          <label htmlFor="">なまえ</label>
+          <label htmlFor="name">なまえ</label>
           <input
             type="text"
             name="name"
@@ -338,7 +338,7 @@ function Edit() {
             placeholder={`${user.name}←6文字以内で入力してください`}
             onChange={handleChange}
           />
-          <label htmlFor="">今のパスワード</label>{" "}
+          <label htmlFor="current_password">今のパスワード</label>{" "}
           <input
             id="current-password"
             type="password"
@@ -347,17 +347,17 @@ function Edit() {
             onChange={handleChange}
             autoComplete="current-password"
           />
-          <label htmlFor="">パスワード変更</label>{" "}
+          <label htmlFor="password">パスワード変更</label>{" "}
           <input
             id="new-password"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder={'8文字以上で設定してください'}
+            placeholder={"8文字以上で設定してください"}
             autoComplete="new-password"
           />
-          <label htmlFor="">パスワード確認</label>{" "}
+          <label htmlFor="password_confirmation">パスワード確認</label>{" "}
           <input
             id="password_confirmation"
             type="password"

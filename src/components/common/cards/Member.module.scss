@@ -290,8 +290,6 @@
   width: 4.5rem;
   height: 4.5rem;
   position: relative;
-  // top: -10px;
-  // left: 0;
   border: solid 0.5px rgb(169, 236, 169);
   border-radius: 50%;
   background-color: white;
@@ -305,8 +303,8 @@
   width: 2.5rem;
   height: 3.25rem;
   z-index: -1;
-  top:-12%;
-  right: 8%;
+  top:-15%;
+  right: 5%;
     transform-origin: bottom;
   animation: rotation 3s ease-in-out infinite;
 }

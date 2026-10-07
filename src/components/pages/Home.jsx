@@ -22,7 +22,7 @@ const Home = () => {
     },
     {
       title: "どうぶつとレベルアップ",
-      image: "./images/animals/animal_circle.png",
+      image: "./images/animals/animal_circle.webp",
       text: "スキルをクリアすると、レベルに応じてどうぶつランクがつくよ。ポイントのもらえるスキルに挑戦してアイテムを手にいれよう！",
     },
   ];

@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from "./Animal.module.scss";
 
 function AnimalCard({ animal, remainLevel, currentLevel }) {

@@ -97,18 +97,20 @@ await axios.post(
         <h2>ログイン</h2>
         {isLoading && <Loading />}
         <div className={classes.loginInputContainer}>
-          <label htmlFor="">ID </label>
+          <label htmlFor="login_id">ID </label>
           <input
             type="text"
             name="login_id"
             value={credentials.login_id}
             onChange={handleChange}
             autoComplete="username"
+            id="login_id"
           />
         </div>
         <div className={classes.loginInputContainer}>
-          <label htmlFor="">パスワード </label>
+          <label htmlFor="password">パスワード </label>
           <input
+            id="password"
             type="password"
             name="password"
             value={credentials.password}

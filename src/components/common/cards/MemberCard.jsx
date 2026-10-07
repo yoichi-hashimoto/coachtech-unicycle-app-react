@@ -1,4 +1,3 @@
-import React from "react";
 import classes from "./Member.module.scss";
 
 function MemberCard({
@@ -18,7 +17,7 @@ function MemberCard({
             <div className={classes.animalWrapper}>
               <img
                 src={member.current_animal?.avatar_path}
-                alt={member.animalAvatar}
+                alt={member.current_animal?.name}
                   className={classes.animalAvatar}
                   loading="lazy"
               />
@@ -37,7 +36,7 @@ function MemberCard({
           >
             <img
               src={member.avatar_path}
-              alt="Member"
+                alt={ member.name }
                 className={classes.memberAvatar}
                 loading="lazy"
             />

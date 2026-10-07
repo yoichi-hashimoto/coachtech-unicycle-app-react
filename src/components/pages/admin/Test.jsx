@@ -18,7 +18,6 @@ function Test() {
 
   useEffect(() => {
     fetchUsers().then((data) => {
-      // const fetchedUsers = data.data;
       setUsers(data);
 
       if (data.length > 0) {

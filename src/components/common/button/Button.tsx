@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactNode } from "react";
 import classes from "./Button.module.scss";
 import { CSSProperties } from "styled-components";

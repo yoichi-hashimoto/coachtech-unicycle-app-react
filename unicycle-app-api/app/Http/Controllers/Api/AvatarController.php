@@ -11,7 +11,4 @@ class AvatarController extends Controller
         return UserAvatar::all();
     }
 
-    public function store(){
-
-    }
 }
