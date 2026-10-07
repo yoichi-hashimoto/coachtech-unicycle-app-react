@@ -135,18 +135,18 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 ## 使用技術
   
 **Frontend**
-- React
-- TypeScript
-- React Router
+- React 19.2.6
+- TypeScript 4.9.5
+- React Router 6.30.6
 - HTML/CSS
-- Zustand
-- Axios
+- Zustand 5.0.14
+- Axios 1.18.0
   
 **Backend**
-- Laravel
+- Laravel 13.8
 - PHP
 - REST API
-- Laravel Sanctum
+- Laravel Sanctum 4.3
   
 **Database**
 - MySQL(本番)
