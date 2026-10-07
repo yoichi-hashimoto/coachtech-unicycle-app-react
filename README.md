@@ -8,7 +8,7 @@
 
 ## URL
 
-https://app.unicircle-jp.com
+https://app.unicircle-jp.com  
 ※ログインユーザー限定のアプリです。  
   
   ユーザー向け説明書  
