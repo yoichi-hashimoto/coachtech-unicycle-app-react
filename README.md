@@ -172,7 +172,7 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 ## システム構成
 FrontendとBackendを分離したSPA構成としています。  
 ReactからAxiosを使用してLaravel REST APIへ通信し、
-LaravelではEloquentを利用してMySQLからデータを取得・更新しています。  
+LaravelではEloquentを利用してDatabaseからデータを取得・更新しています。  
 認証にはLaravel Sanctumを使用し、
 Cookieベースでログイン状態を管理しています。  
   
@@ -300,7 +300,7 @@ FrontendとBackendを分離しているため、Laravel SanctumによるCookie�
    の関係を理解しながら設定を行いました。  
   
 4. 本番環境へのデプロイ
-ローカルDocker環境では正常に動作していても、本番Railway環境では  
+ローカル環境では正常に動作していても、本番Railway環境では  
   
    - 環境変数
    - MySQL
