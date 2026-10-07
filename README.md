@@ -111,7 +111,7 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 
 8. 技へのコメント・Tip投稿  
 技ごとに、メンバーが攻略のコツや練習方法を投稿できます。
-自分の失敗や成功について言語化することで、俗人的ではない技の練習ポイントを学べ、指導者がいない時間でも自主練習が出来ます。  
+自分の失敗や成功について言語化することで、属人的ではない技の練習ポイントを学べ、指導者がいない時間でも自主練習が出来ます。  
 遠方から招聘している指導者もその場に居合わせることなく状況を把握し、コメントでコツを指導できます。  
 指導者だけが知識を持つのではなく、
 **「クラブ内に練習ノウハウを蓄積する」** ことを目的としています。
@@ -149,12 +149,13 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 - Laravel Sanctum
   
 **Database**
-- MySQL
+- MySQL(本番)
+- SQLite(ローカル開発)
   
 **Infrastructure**
 - Railway
 - nginx
-- Xserver Domain
+- XServer Domain
   
 
 **Development / Tools**
@@ -322,16 +323,20 @@ FrontendとBackendを分離しているため、Laravel SanctumによるCookie�
 
 ## 開発環境構築
 **Laravel**  
-git clone https://github.com/yoichi-hashimoto/coachtech-unicycle-app-react.git  
-cd unicycle-app-api  
-cp .env.example .env  
-docker compose up -d  
-composer install  
-php artisan key:generate  
-php artisan migrate --seed  
+git clone https://github.com/yoichi-hashimoto/coachtech-unicycle-app-react.git
+cd coachtech-unicycle-app-react/unicycle-app-api
+
+composer install
+cp .env.example .env
+php artisan key:generate
+
+touch database/database.sqlite
+php artisan migrate --seed
+
+php artisan serve
   
 **React**  
-cd unicycle-app  
+cd ..  
 npm install  
 npm start  
   
@@ -386,7 +391,7 @@ UI設計
 　　↓  
 フィードバック・改善  
 
-というWebサービス開発の一連の流れを設計・経験しました。
+一連の流れを設計・経験しました。
 
 実際に運営している一輪車クラブを題材としたことで、
 「技術的に実装できる機能」と
