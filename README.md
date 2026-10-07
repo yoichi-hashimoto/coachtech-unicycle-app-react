@@ -135,7 +135,7 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 ## 使用技術
   
 **Frontend**
-- React 19.2.6
+- React 19.3.0
 - TypeScript 4.9.5
 - React Router 6.30.6
 - HTML/CSS
@@ -143,7 +143,7 @@ Uni-Circleでは、主に次の3つの課題解決を目指しています。
 - Axios 1.18.0
   
 **Backend**
-- Laravel 13.8
+- Laravel 13.14.0
 - PHP
 - REST API
 - Laravel Sanctum 4.3
@@ -323,25 +323,28 @@ FrontendとBackendを分離しているため、Laravel SanctumによるCookie�
 
 ## 開発環境構築
 **Laravel**  
-git clone https://github.com/yoichi-hashimoto/coachtech-unicycle-app-react.git
-cd coachtech-unicycle-app-react/unicycle-app-api
+      git clone https://github.com/yoichi-hashimoto/coachtech-unicycle-app-react.git
+      cd coachtech-unicycle-app-react/unicycle-app-api
 
-composer install
-cp .env.example .env
-php artisan key:generate
+      composer install
+      cp .env.example .env
+      php artisan key:generate
 
-touch database/database.sqlite
-php artisan migrate --seed
+      touch database/database.sqlite
+      php artisan migrate --seed
 
-php artisan serve
+      php artisan serve
   
 **React**  
-cd ..  
-npm install  
-npm start  
+
+      別ターミナルを起動  
+
+      npm install  
+      npm start  
   
 **Test**  
-npm test  
+
+      npm test  
   
 
 ## 今後実装したい機能
