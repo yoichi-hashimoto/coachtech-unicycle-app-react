@@ -356,7 +356,15 @@ FrontendとBackendを分離しているため、Laravel SanctumによるCookie�
 
       npm test  
   
-
+**ダミーユーザー情報**  
+   - 管理者  
+      ID OUC3456  
+      PW test  
+  
+   - 一般ユーザー  
+      ID OUC2345  
+      PW test  
+  
 
 ## 今後実装したい機能
 ### 1. 成長履歴の可視化
