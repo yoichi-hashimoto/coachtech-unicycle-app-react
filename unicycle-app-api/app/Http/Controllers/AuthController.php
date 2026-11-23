@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,8 +23,7 @@ class AuthController
     $request ->session()->regenerate();
     return response()->json([
     'message'=>'ログインしました',
-    'user'=>$request->user(),
-    'auth_id'=>Auth::id(),
+    'data' => new UserResource($request->user()),
     ]);
     }
 
@@ -34,6 +34,7 @@ class AuthController
         $request->session()->regenerateToken();
 
         return response()->json([
+            'data' => null,
             'message'=>'ログアウトしました',
         ]);
     }

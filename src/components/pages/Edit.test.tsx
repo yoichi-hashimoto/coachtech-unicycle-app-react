@@ -11,6 +11,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 test("プロフィールを更新できる", async () => {
   const loginUser = {
+    id: 1,
     name: "ひろし",
     role: "member",
     current_level: 1,
@@ -27,12 +28,12 @@ test("プロフィールを更新できる", async () => {
   });
 
   mockedAxios.get.mockResolvedValue({
-    data: [],
+    data: { data: [] },
   });
 
   mockedAxios.patch.mockResolvedValue({
     data: {
-      name: "さとし",
+      data: { ...loginUser, name: "さとし" },
     },
   });
 

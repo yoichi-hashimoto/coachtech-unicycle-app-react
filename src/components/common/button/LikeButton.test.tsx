@@ -40,11 +40,12 @@ test("❤を押すとLike状態になる", async () => {
 
   const user = userEvent.setup();
 
-  render(<LikeButton likeHistory={history} fromUser={loginUser}/>);
+  render(<LikeButton likeHistory={history}/>);
 
   const button = screen.getByRole("button");
   expect(button).toHaveTextContent("❤を押す");
   await user.click(button);
 
   expect(button).toHaveTextContent("❤済み");
+  expect(mockedAxios.post).toHaveBeenCalledWith("/api/likes", { challenge_id: history.id });
 });

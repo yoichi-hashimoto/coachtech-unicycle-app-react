@@ -9,9 +9,9 @@ jest.mock("../../api/axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 test("IDとパスワードを入力してログインできる", async () => {
-  mockedAxios.post.mockResolvedValue({
+  mockedAxios.get.mockResolvedValue({
     data: {
-      user: {
+      data: {
         id: 1,
         name: "ひろし",
       },

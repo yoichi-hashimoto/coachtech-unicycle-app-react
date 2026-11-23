@@ -23,7 +23,7 @@ class UserItemController
         });
         return response()->json([
             'message' => 'アイテムを装備しました',
-            'user_item'=>$userItem->fresh('item'),
+            'data' => ['user_item' => $userItem->fresh('item')],
         ]);
     }
 }

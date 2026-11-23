@@ -9,9 +9,47 @@ import { fetchAvatars } from "../../api/avatars";
 import { fetchColors } from "../../api/color";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
+import { isAxiosError } from "axios";
 import axios from "../../api/axios";
+import { readData, type ApiResponse } from "../../api/response";
 import Toast from "../common/modal/Toast";
 import Loading from "../common/modal/Loading";
+
+
+type AvatarType = {
+  id: number;
+  avatar_path: string;
+}
+
+type UserItemType = {
+  id: number;
+  item_id: number;
+  item: {
+    id: number;
+    name: string;
+    avatar_path: string;
+  }
+}
+
+  type ToastType = {
+    message: string;
+    type: "success" | "fail";
+  }
+
+type ColorType = {
+  id: number;
+  name: string;
+  color_path: string;
+}
+
+type UpdatedPayload = {
+  name?: string;
+  current_password?: string;
+  password?: string;
+  password_confirmation?: string;
+  user_avatar_id?: number;
+  color_id?: number;
+}
 
 function Edit() {
   const user = useAuthStore((state) => state.user);
@@ -20,22 +58,21 @@ function Edit() {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isItemOpen, setIsItemOpen] = useState(false);
   const navigate = useNavigate();
-  const [userImage, setUserImage] = useState();
-  const [userColor, setUserColor] = useState();
-  const [avatars, setAvatars] = useState([]);
-  const [colors, setColors] = useState([]);
-  const [userItems, setUserItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [toast, setToast] = useState({
-    message: "",
-    type: "",
-  });
+  const [userImage, setUserImage] = useState<string>("");
+  const [userColor, setUserColor] = useState<string>("");
+  const [avatars, setAvatars] = useState<AvatarType[]>([]);
+  const [colors, setColors] = useState<ColorType[]>([]);
+  const [userItems, setUserItems] = useState<UserItemType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [toast, setToast] = useState<ToastType | null>(null);
 
-  function showToast(message, type = "error") {
+
+
+  function showToast(message:string, type:ToastType["type"]= "success") {
     setToast({ message, type });
 
     setTimeout(() => {
-      setToast({ message: "", type: "" });
+      setToast(null);
     }, 2500);
   }
 
@@ -76,41 +113,35 @@ function Edit() {
     }
   }, [user]);
 
-  if (!user) {
-    return <Toast>ログインしてください</Toast>;
-  }
-
-  const avatarChange = (avatar) => {
+  const avatarChange = (avatar:AvatarType) => {
     setUserImage(avatar.avatar_path);
     setFormData((prev) => ({
       ...prev,
-      user_avatar_id: avatar.id,
+      user_avatar_id: String(avatar.id),
     }));
     setIsOpen(false);
   };
 
-  const colorChange = (color) => {
+  const colorChange = (color:ColorType) => {
     setUserColor(color.color_path);
     setFormData((prev) => ({
       ...prev,
-      color_id: color.id,
+      color_id: String(color.id),
     }));
     setIsColorOpen(false);
   };
 
-  const handleEquipItem = async (userItemId) => {
+  const handleEquipItem = async (userItemId:number) => {
     try {
       setIsLoading(true);
-      const response = await axios.patch(`/api/user_item/${userItemId}`);
-      setUser({
-        ...user,
-        equipped_item: response.data.user_item,
-      });
+      const response = await axios.patch<ApiResponse<{ user_item: UserItemType }>>(`/api/user_item/${userItemId}`);
+      const equippedItem = readData(response).user_item;
+      setUser({ ...user, equipped_item_path: equippedItem.item.avatar_path });
     } catch (error) {
       console.error(error);
       setToast({
         message: "アイテムの変更に失敗しました",
-        type: "error",
+        type: "fail",
       });
     } finally {
       setIsLoading(false);
@@ -118,13 +149,13 @@ function Edit() {
     setIsItemOpen(false);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("送信前formData", formData);
+    if (!user) return;
 
     const {
       name,
@@ -162,7 +193,7 @@ function Edit() {
       }
     }
 
-    const payload = {};
+    const payload:UpdatedPayload = {};
 
     if (name.trim() !== "") {
       payload.name = name.trim();
@@ -182,42 +213,49 @@ function Edit() {
       payload.password_confirmation = password_confirmation;
     }
     setIsLoading(true);
+
+    type ValidationErrorResponse = {
+      errors?: Record<string, string[]>;
+    };
+
     try {
+
       await axios.get("/sanctum/csrf-cookie");
       const response = await axios.patch(`/api/users/${user.id}`, payload);
 
-      setUser(response.data.data);
+      setUser(readData(response));
+      setFormData({ name: "", current_password: "", password: "", password_confirmation: "", user_avatar_id: "", color_id: "" });
+      showToast("更新しました");
+      navigate("/profile");
 
-      setFormData((prev) => ({
-        ...prev,
-        name: "",
-        current_password: "",
-        password: "",
-        password_confirmation: "",
-      }));
-
-      showToast("更新しました", "success");
-      setTimeout(() => {
-        navigate("/profile");
-      }, 1000);
     } catch (error) {
-      if (error.response?.status === 422) {
-        const errors = error.response.data.errors;
-        const firstMessage = Object.values(errors)?.[0]?.[0];
+      if (isAxiosError<ValidationErrorResponse>(error)) {
+        const status = error.response?.status;
 
-        showToast(firstMessage ?? "入力内容を確認してください", "error");
-      } else if (error.response?.status === 401) {
-        showToast("ログインし直してください", "error");
-      } else if (error.response?.status === 403) {
-        showToast("この変更を行う権限がありません", "error");
+        if (status === 422) {
+          const errors = error.response?.data?.errors ?? {};
+          const firstMessage = Object.values(errors)[0]?.[0];
+
+          showToast(
+            firstMessage ?? "入力内容を確認してください",
+            "fail"
+          );
+        } else if (status === 401) {
+          showToast("ログインしなおしてください", "fail");
+        } else if (status === 403) {
+          showToast("この変更を行う権限がありません", "fail");
+        } else {
+          showToast("更新に失敗しました", "fail");
+        }
       } else {
-        showToast("更新に失敗しました", "error");
+        showToast("更新に失敗しました", "fail");
       }
-      console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (!user) return <Loading />;
 
   return (
     <div className={classes.contentsWrapper}>
@@ -236,7 +274,6 @@ function Edit() {
         />
         <AnimalCard
           animal={user.current_animal}
-          item={user.equipped_item_path}
           remainLevel={user.remain_level}
           currentLevel={user.current_level}
         />
@@ -373,7 +410,7 @@ function Edit() {
           </Button>
         </div>
         <div className={classes.toastWrapper}>
-          <Toast message={toast.message} type={toast.type} />
+          {toast && <Toast message={toast.message} type={toast.type} />}
         </div>
       </div>
     </div>

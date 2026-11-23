@@ -21,10 +21,11 @@ use App\Http\Resources\UserResource;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
 
+Route::get('/notices', [NoticeController::class, 'index']);
+
 Route::middleware('guest:sanctum')->group(function(){
     Route::post('/login',[AuthController::class,'login'])
     ->middleware('throttle:5,1');
-    Route::get('/notices',[NoticeController::class,'index']);
 });
 
 Route::middleware('auth:sanctum')->group(function(){
@@ -45,7 +46,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/skill/{skill}/tips',[SkillTipController::class,'store']);
     Route::get('/user',function(Request $request){
         return response()->json([
-            'user'=>new UserResource($request->user()),
+            'data' => new UserResource($request->user()),
         ]);
 });
 

@@ -3,6 +3,7 @@ import Button from "../button/Button";
 import Modal from "../modal/Modal";
 import React, { useState } from "react";
 import type { SkillType } from "../type/skill";
+import { readData, type ApiResponse } from "../../../api/response";
 import { useAuthStore } from "../../../stores/authStore";
 import TipCard from "./TipCard";
 import axios from "../../../api/axios";
@@ -37,10 +38,10 @@ function SkillCard({ skill }: SkillProps) {
       return;
     }
     try {
-      const response = await axios.post(`./api/skill/${skill.id}/tips`, {
+      const response = await axios.post<ApiResponse<SkillType["skill_tips"][number]>>(`/api/skill/${skill.id}/tips`, {
         text: formData.text,
       });
-      setTips((prev) => [...prev, response.data]);
+      setTips((prev) => [...prev, readData(response)]);
 
       setFormData({ text: "" });
     } catch (error) {

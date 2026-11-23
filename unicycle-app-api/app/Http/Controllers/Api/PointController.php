@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\DB;
 class PointController
 {
     public function index(){
-        return Point::select('user_id',DB::raw('SUM(points) as total_points'))
+        $points = Point::select('user_id',DB::raw('SUM(points) as total_points'))
         ->groupBy('user_id')
         ->get();
+
+        return response()->json(['data' => $points]);
     }
 
 

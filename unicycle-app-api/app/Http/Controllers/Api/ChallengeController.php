@@ -42,6 +42,7 @@ class ChallengeController extends Controller
     });
 
         return response()->json([
+            'data' => $challenge,
             'message'=>'チャレンジを登録しました'
         ],201);
     }

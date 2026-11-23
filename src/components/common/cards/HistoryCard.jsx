@@ -1,6 +1,5 @@
 import classes from "./History.module.scss";
 import LikeButton from "../button/LikeButton";
-import { useAuthStore } from "../../../stores/authStore";
 
 const judgePass = (history) => {
   if (history.success_score === 3) {
@@ -19,7 +18,6 @@ const formattedDateDay = new Intl.DateTimeFormat("ja-JP", {
 }).format;
 
 const HistoryCard = ({ history, showButton = true }) => {
-  const authUser = useAuthStore((state) => state.user);
 
   const isPassed = history.success_score === 3;
 
@@ -86,7 +84,7 @@ const HistoryCard = ({ history, showButton = true }) => {
             {history.skill_name}に"{judgePass(history)}"しました！
           </p>
         </div>
-        <LikeButton likeHistory={history} fromUser={authUser?.id}></LikeButton>
+        <LikeButton likeHistory={history}></LikeButton>
       </div>
     </>
   );

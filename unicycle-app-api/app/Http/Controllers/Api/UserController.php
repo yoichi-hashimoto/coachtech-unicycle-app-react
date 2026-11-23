@@ -44,7 +44,7 @@ class UserController extends Controller
        $user->save();
 
        return response()->json([
-       'user'=>new UserResource($user),],201);
+       'data' => new UserResource($user),],201);
     }
 
     public function update(Request $request)
@@ -99,7 +99,7 @@ class UserController extends Controller
 
         $user->refresh();
 
-        return response()->json($user);
+        return new UserResource($user);
     }
 
     public function resetPassword(User $user){
@@ -108,6 +108,7 @@ class UserController extends Controller
         ]);
 
         return response()->json([
+            'data' => null,
             'message'=>'パスワードを初期化しました',
         ]);
     }
@@ -117,6 +118,7 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
+            'data' => null,
             'message'=>'ユーザーを削除しました'
         ]);
     }

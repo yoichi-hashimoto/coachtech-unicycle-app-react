@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Notice;
 
 class NoticeController
 {
     public function index(){
-        return Notice::latest()->paginate(5);}
+        return JsonResource::collection(Notice::latest()->paginate(5));
+    }
 
     public function store(Request $request){
         $validate = $request->validate([
@@ -23,6 +25,6 @@ class NoticeController
 
         $notice->save();
 
-        return response()->json($notice,201);
+        return response()->json(['data' => $notice], 201);
     }
 }

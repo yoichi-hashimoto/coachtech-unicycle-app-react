@@ -9,6 +9,6 @@ class ColorController extends Controller
 {
     public function index()
     {
-        return Color::with('user')->get();
+        return response()->json(['data' => Color::with('user')->get()]);
     }
 }

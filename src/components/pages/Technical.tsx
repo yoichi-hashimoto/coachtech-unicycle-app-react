@@ -58,7 +58,7 @@ function Technical() {
       try {
         setLoading(true);
         const users = await fetchUsers();
-        const admins = users.filter((user: any) => user.is_admin === true);
+        const admins = users.filter((user) => user.is_admin === true);
         console.log(admins);
         setAdmins(admins);
       } catch (error) {
@@ -96,7 +96,7 @@ function Technical() {
               <div className={classes.adminContainer}>
                 <div className={classes.adminWrapper}>
                   <p>{admin.name}</p>
-                  <img src={admin.avatar_path} className={classes.adminImage} alt={ admin.name } />
+                  <img src={admin.avatar_path ?? undefined} className={classes.adminImage} alt={ admin.name } />
                 </div>
               </div>
             ))}

@@ -2,32 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Models\Challenge;
 use App\Models\Like;
+use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-        public function index()
+    public function store(Request $request)
     {
-        return view('/');
-    }
-
-    public function store(Request $request, Like $like)
-    {
-        $validated = $request-> validate([
-        'challenge_id' => 'integer',
-        'user_id' => 'integer',
-        'from_user_id' => 'integer',
+        $validated = $request->validate([
+            'challenge_id' => ['required', 'integer', 'exists:challenges,id'],
         ]);
 
+        $challenge = Challenge::findOrFail($validated['challenge_id']);
+
+        // Older clients still send user IDs. Derive both IDs on the server.
         Like::firstOrCreate([
-    'challenge_id' => $validated['challenge_id'],
-    'from_user_id' => $validated['from_user_id'],
-], [
-    'user_id' => $validated['user_id'],
-]);
+            'challenge_id' => $challenge->id,
+            'from_user_id' => $request->user()->id,
+        ], [
+            'user_id' => $challenge->user_id,
+        ]);
 
-        return response()->json();
+        return response()->json(['data' => null]);
     }
-
 }

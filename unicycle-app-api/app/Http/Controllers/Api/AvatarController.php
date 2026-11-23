@@ -8,7 +8,7 @@ use App\Models\UserAvatar;
 class AvatarController extends Controller
 {
     public function index(){
-        return UserAvatar::all();
+        return response()->json(['data' => UserAvatar::all()]);
     }
 
 }

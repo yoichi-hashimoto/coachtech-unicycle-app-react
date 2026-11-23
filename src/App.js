@@ -16,20 +16,32 @@ import Register from "./components/pages/admin/Register";
 import Test from "./components/pages/admin/Test";
 import Notice from "./components/pages/admin/Notice";
 import { useAuthStore } from "./stores/authStore";
+import { isAxiosError } from "axios";
 import { fetchLoginUser } from "./api/auth";
 import AdminRoute from "./components/common/routes/AdminRoute";
 
 function App() {
   const setUser = useAuthStore((state) => state.setUser);
+  const setAuthError = useAuthStore((state) => state.setAuthError);
   useEffect(() => {
+    let active = true;
+    const isChecking = () => active && useAuthStore.getState().authStatus === "checking";
     fetchLoginUser()
       .then((user) => {
-        setUser(user);
+        if (isChecking()) setUser(user);
       })
-      .catch(() => {
-        setUser(null);
+      .catch((error) => {
+        if (!isChecking()) return;
+        if (isAxiosError(error) && error.response?.status === 401) {
+          setUser(null);
+        } else {
+          setAuthError();
+        }
       });
-  }, [setUser]);
+    return () => {
+      active = false;
+    };
+  }, [setUser, setAuthError]);
 
   return (
     <div className="app">
@@ -44,22 +56,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/edit" element={<Edit />} />
             <Route path="/technical" element={<Technical />} />
-            <Route
-              path="/register"
-              element={
-                <AdminRoute>
-                  <Register />
-                </AdminRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <AdminRoute>
-                  <Register />
-                </AdminRoute>
-              }
-            />
             <Route
               path="/register"
               element={

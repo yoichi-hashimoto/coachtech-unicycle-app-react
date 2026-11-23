@@ -48,27 +48,8 @@ function Login() {
     }
     try {
       setIsLoading(true);
-await axios.get("/sanctum/csrf-cookie");
-console.log(document.cookie);
-const xsrfToken = decodeURIComponent(
-  document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("XSRF-TOKEN="))
-    ?.split("=")[1] || "",
-);
-
-await axios.post(
-  "/login",
-  {
-    login_id: credentials.login_id,
-    password: credentials.password,
-  },
-  {
-    headers: {
-      "X-XSRF-TOKEN": xsrfToken,
-    },
-  },
-);
+      await axios.get("/sanctum/csrf-cookie");
+      await axios.post("/login", credentials);
 
       const user = await fetchLoginUser();
       setUser(user);
@@ -78,8 +59,6 @@ await axios.post(
         navigate("/profile");
       }, 1500);
     } catch (error) {
-      console.error(error);
-
       if (error.response?.status === 422) {
         showToast("IDまたはパスワードの形式が正しくありません", "error");
       } else if (error.response?.status === 401) {

@@ -11,7 +11,7 @@ class SkillTipController
     public function index($skillId){
 
         $tips =SkillTip::where('skill_id',$skillId)->with('user')->latest()->get();
-        return response()->json($tips);
+        return response()->json(['data' => $tips]);
     }
 
     public function store(Request $request, Skill $skill){
@@ -25,7 +25,7 @@ class SkillTipController
             'text'=>$validated['text'],
         ]);
         return response()->json(
-            $tip->load('user.avatar'),201
+            ['data' => $tip->load('user.avatar')], 201
         );
     }
 }

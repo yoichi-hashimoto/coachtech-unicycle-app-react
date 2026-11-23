@@ -1,11 +1,12 @@
 import Button from "../common/button/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import classes from "./Home.module.css";
 import { fetchNotice } from "../../api/notice";
 import { useState, useEffect } from "react";
 import NoticeCard from "../common/cards/NoticeCard";
 
 const Home = () => {
+  const { state } = useLocation();
   const [notices, setNotices] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
@@ -58,6 +59,7 @@ const Home = () => {
       <div className={classes.contentsWrapper}>
         {" "}
         <h1>一輪車アプリUni-Circleへようこそ！</h1>
+          {state?.authError && <p role="alert">認証を確認できませんでした</p>}
           <NoticeCard notices={notices}/>
         <div className={classes.imgContainer}>
           <div className={classes.imgWrapper}>

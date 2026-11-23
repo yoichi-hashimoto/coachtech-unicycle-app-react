@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import type { ItemType } from "../common/type/item";
 import Modal from "../common/modal/Modal";
 import Loading from "../common/modal/Loading";
+import { isAxiosError } from "axios";
 import axios from "../../api/axios";
 import Button from "../common/button/Button";
 import Toast from "../common/modal/Toast";
@@ -132,7 +133,14 @@ function Profile() {
       ]);
       setIsOpen(false);
     } catch (error) {
-      showToast("ポイントが足りません！", "fail");
+      const response = isAxiosError<{ message?: string }>(error) ? error.response : undefined;
+      if (response?.status === 422 && response.data.message === "lack of point") {
+        showToast("ポイントが足りません！", "fail");
+      } else if (response?.status === 422 && response.data.message === "already owned") {
+        showToast("すでに持っているアイテムです", "fail");
+      } else {
+        showToast("アイテムの購入に失敗しました", "fail");
+      }
       console.error("アイテムの購入に失敗しました", error);
     } finally {
       setIsLoading(false);
